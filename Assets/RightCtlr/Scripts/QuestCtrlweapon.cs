@@ -11,14 +11,17 @@ public class QuestControllerSwap : MonoBehaviour
     [Header("原本控制器模型")]
     public GameObject originalControllerModel;
 
-    [Header("新的模型")]
+    [Header("新模型")]
     public GameObject newModel;
 
-    [Header("生成特效 Prefab")]
+    [Header("切換特效")]
     public GameObject spawnEffectPrefab;
 
-    [Header("特效後延遲幾秒生成模型")]
-    public float spawnDelay = 1.0f;
+    [Header("射擊系統")]
+    public Shoot shooter;
+
+    [Header("切換延遲")]
+    public float spawnDelay = 1f;
 
     [Header("控制器")]
     public XRNode controllerNode = XRNode.RightHand;
@@ -32,11 +35,11 @@ public class QuestControllerSwap : MonoBehaviour
 
     private XRInputDevice device;
 
-    private bool lastSecondaryState = false;
-    private bool lastTriggerState = false;
+    private bool lastSecondaryState;
+    private bool lastTriggerState;
 
-    private bool hasSwapped = false;
-    private bool isPlaying = false;
+    private bool hasSwapped;
+    private bool isPlaying;
 
     void Start()
     {
@@ -52,9 +55,7 @@ public class QuestControllerSwap : MonoBehaviour
     void Update()
     {
         if (!device.isValid)
-        {
             InitializeDevice();
-        }
 
         CheckXRInput();
         CheckTriggerInput();
@@ -89,7 +90,6 @@ public class QuestControllerSwap : MonoBehaviour
         {
             if (triggerButton && !lastTriggerState)
             {
-                // 只有新模型啟用時才觸發
                 if (newModel != null && newModel.activeSelf)
                 {
                     PlayTriggerEffect();
@@ -105,21 +105,20 @@ public class QuestControllerSwap : MonoBehaviour
         if (Keyboard.current == null)
             return;
 
-        // G鍵：切換模型
         if (Keyboard.current.gKey.wasPressedThisFrame)
         {
             StartSwap();
         }
 
-        // Q鍵：模擬板機
-        if (Keyboard.current.qKey.wasPressedThisFrame)
+        if (Keyboard.current.rKey.wasPressedThisFrame)
         {
-            // 只有新模型啟用時才觸發
             if (newModel != null && newModel.activeSelf)
             {
                 PlayTriggerEffect();
             }
+            
         }
+        
     }
 
     void StartSwap()
@@ -138,43 +137,31 @@ public class QuestControllerSwap : MonoBehaviour
 
         SendHaptic();
 
-        // 切換時特效
         if (spawnEffectPrefab != null)
         {
             Instantiate(
                 spawnEffectPrefab,
                 transform.position,
-                transform.rotation
-            );
+                transform.rotation);
         }
 
-        // 等待特效
         yield return new WaitForSeconds(spawnDelay);
 
         if (originalControllerModel != null)
-        {
             originalControllerModel.SetActive(!hasSwapped);
-        }
 
         if (newModel != null)
-        {
             newModel.SetActive(hasSwapped);
-        }
 
         isPlaying = false;
     }
 
     void PlayTriggerEffect()
     {
-        if (spawnEffectPrefab != null)
+        if (shooter != null)
         {
-            Instantiate(
-                spawnEffectPrefab,
-                transform.position,
-                transform.rotation
-            );
+            shooter.Fire();
         }
-
         SendHaptic();
     }
 
@@ -185,8 +172,7 @@ public class QuestControllerSwap : MonoBehaviour
             device.SendHapticImpulse(
                 0,
                 hapticAmplitude,
-                hapticDuration
-            );
+                hapticDuration);
         }
     }
 }
