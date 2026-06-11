@@ -8,10 +8,10 @@ using XRCommonUsages = UnityEngine.XR.CommonUsages;
 
 public class QuestControllerSwap : MonoBehaviour
 {
-    [Header("原本控制器模型")]
+    [Header("原控制器模型")]
     public GameObject originalControllerModel;
 
-    [Header("新模型")]
+    [Header("武器模型")]
     public GameObject newModel;
 
     [Header("切換特效")]
@@ -27,7 +27,7 @@ public class QuestControllerSwap : MonoBehaviour
     public XRNode controllerNode = XRNode.RightHand;
 
     [Header("震動強度")]
-    [Range(0, 1)]
+    [Range(0f, 1f)]
     public float hapticAmplitude = 0.7f;
 
     [Header("震動時間")]
@@ -44,6 +44,9 @@ public class QuestControllerSwap : MonoBehaviour
     void Start()
     {
         InitializeDevice();
+
+        if (shooter == null)
+            shooter = GetComponentInChildren<Shoot>();
 
         if (newModel != null)
             newModel.SetActive(false);
@@ -69,9 +72,9 @@ public class QuestControllerSwap : MonoBehaviour
 
     void CheckXRInput()
     {
-        bool secondaryButton;
-
-        if (device.TryGetFeatureValue(XRCommonUsages.secondaryButton, out secondaryButton))
+        if (device.TryGetFeatureValue(
+            XRCommonUsages.secondaryButton,
+            out bool secondaryButton))
         {
             if (secondaryButton && !lastSecondaryState)
             {
@@ -84,15 +87,15 @@ public class QuestControllerSwap : MonoBehaviour
 
     void CheckTriggerInput()
     {
-        bool triggerButton;
-
-        if (device.TryGetFeatureValue(XRCommonUsages.triggerButton, out triggerButton))
+        if (device.TryGetFeatureValue(
+            XRCommonUsages.triggerButton,
+            out bool triggerButton))
         {
             if (triggerButton && !lastTriggerState)
             {
                 if (newModel != null && newModel.activeSelf)
                 {
-                    PlayTriggerEffect();
+                    FireWeapon();
                 }
             }
 
@@ -114,11 +117,19 @@ public class QuestControllerSwap : MonoBehaviour
         {
             if (newModel != null && newModel.activeSelf)
             {
-                PlayTriggerEffect();
+                FireWeapon();
             }
-            
         }
-        
+    }
+
+    void FireWeapon()
+    {
+        if (shooter != null)
+        {
+            shooter.Fire();
+        }
+
+        SendHaptic();
     }
 
     void StartSwap()
@@ -154,15 +165,6 @@ public class QuestControllerSwap : MonoBehaviour
             newModel.SetActive(hasSwapped);
 
         isPlaying = false;
-    }
-
-    void PlayTriggerEffect()
-    {
-        if (shooter != null)
-        {
-            shooter.Fire();
-        }
-        SendHaptic();
     }
 
     void SendHaptic()

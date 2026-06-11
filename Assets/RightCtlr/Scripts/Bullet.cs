@@ -18,19 +18,26 @@ public class Bullet : MonoBehaviour
                 flyEffectPrefab,
                 transform);
 
-            flyEffect.transform.localPosition = Vector3.zero;
+            flyEffect.transform.localPosition =
+                Vector3.zero;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        Vector3 hitPoint = transform.position;
+
+        if (collision.contactCount > 0)
+        {
+            hitPoint = collision.contacts[0].point;
+        }
+
         if (hitEffectPrefab != null)
         {
-            GameObject effect =
-                Instantiate(
-                    hitEffectPrefab,
-                    collision.contacts[0].point,
-                    Quaternion.identity);
+            GameObject effect = Instantiate(
+                hitEffectPrefab,
+                hitPoint,
+                Quaternion.identity);
 
             Destroy(effect, 3f);
         }
@@ -38,6 +45,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Target"))
         {
             Destroy(collision.gameObject);
+            print("我沒了");
         }
 
         Destroy(gameObject);
