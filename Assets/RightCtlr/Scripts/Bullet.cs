@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [Header("飛行特效")]
     public GameObject flyEffectPrefab;
-
-    [Header("命中特效")]
     public GameObject hitEffectPrefab;
 
     private GameObject flyEffect;
@@ -14,38 +11,39 @@ public class Bullet : MonoBehaviour
     {
         if (flyEffectPrefab != null)
         {
-            flyEffect = Instantiate(
-                flyEffectPrefab,
-                transform);
+            flyEffect =
+                Instantiate(
+                    flyEffectPrefab,
+                    transform);
 
             flyEffect.transform.localPosition =
                 Vector3.zero;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(
+        Collision collision)
     {
-        Vector3 hitPoint = transform.position;
-
-        if (collision.contactCount > 0)
-        {
-            hitPoint = collision.contacts[0].point;
-        }
+        Vector3 hitPoint =
+            collision.contacts[0].point;
 
         if (hitEffectPrefab != null)
         {
-            GameObject effect = Instantiate(
-                hitEffectPrefab,
-                hitPoint,
-                Quaternion.identity);
+            GameObject effect =
+                Instantiate(
+                    hitEffectPrefab,
+                    hitPoint,
+                    Quaternion.identity);
 
             Destroy(effect, 3f);
         }
 
-        if (collision.gameObject.CompareTag("Target"))
+        Target target =
+            collision.gameObject.GetComponent<Target>();
+
+        if (target != null)
         {
-            Destroy(collision.gameObject);
-            print("我沒了");
+            target.HideTarget();
         }
 
         Destroy(gameObject);

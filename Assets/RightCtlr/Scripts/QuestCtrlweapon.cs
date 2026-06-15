@@ -1,37 +1,18 @@
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 using XRInputDevice = UnityEngine.XR.InputDevice;
 using XRCommonUsages = UnityEngine.XR.CommonUsages;
 
 public class QuestControllerSwap : MonoBehaviour
 {
-    [Header("原控制器模型")]
     public GameObject originalControllerModel;
-
-    [Header("武器模型")]
     public GameObject newModel;
 
-    [Header("切換特效")]
-    public GameObject spawnEffectPrefab;
-
-    [Header("射擊系統")]
     public Shoot shooter;
 
-    [Header("切換延遲")]
-    public float spawnDelay = 1f;
-
-    [Header("控制器")]
     public XRNode controllerNode = XRNode.RightHand;
-
-    [Header("震動強度")]
-    [Range(0f, 1f)]
-    public float hapticAmplitude = 0.7f;
-
-    [Header("震動時間")]
-    public float hapticDuration = 0.2f;
 
     private XRInputDevice device;
 
@@ -39,20 +20,13 @@ public class QuestControllerSwap : MonoBehaviour
     private bool lastTriggerState;
 
     private bool hasSwapped;
-    private bool isPlaying;
 
     void Start()
     {
         InitializeDevice();
 
-        if (shooter == null)
-            shooter = GetComponentInChildren<Shoot>();
-
         if (newModel != null)
             newModel.SetActive(false);
-
-        if (originalControllerModel != null)
-            originalControllerModel.SetActive(true);
     }
 
     void Update()
@@ -72,13 +46,15 @@ public class QuestControllerSwap : MonoBehaviour
 
     void CheckXRInput()
     {
+        bool secondaryButton;
+
         if (device.TryGetFeatureValue(
-            XRCommonUsages.secondaryButton,
-            out bool secondaryButton))
+                XRCommonUsages.secondaryButton,
+                out secondaryButton))
         {
             if (secondaryButton && !lastSecondaryState)
             {
-                StartSwap();
+                ToggleWeapon();
             }
 
             lastSecondaryState = secondaryButton;
@@ -87,16 +63,15 @@ public class QuestControllerSwap : MonoBehaviour
 
     void CheckTriggerInput()
     {
+        bool triggerButton;
+
         if (device.TryGetFeatureValue(
-            XRCommonUsages.triggerButton,
-            out bool triggerButton))
+                XRCommonUsages.triggerButton,
+                out triggerButton))
         {
             if (triggerButton && !lastTriggerState)
             {
-                if (newModel != null && newModel.activeSelf)
-                {
-                    FireWeapon();
-                }
+                FireWeapon();
             }
 
             lastTriggerState = triggerButton;
@@ -110,71 +85,33 @@ public class QuestControllerSwap : MonoBehaviour
 
         if (Keyboard.current.gKey.wasPressedThisFrame)
         {
-            StartSwap();
+            ToggleWeapon();
         }
 
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        if (Keyboard.current.tKey.wasPressedThisFrame)
         {
-            if (newModel != null && newModel.activeSelf)
-            {
-                FireWeapon();
-            }
+            FireWeapon();
         }
     }
 
-    void FireWeapon()
+    void ToggleWeapon()
     {
-        if (shooter != null)
-        {
-            shooter.Fire();
-        }
-
-        SendHaptic();
-    }
-
-    void StartSwap()
-    {
-        if (!isPlaying)
-        {
-            StartCoroutine(PlayEffectAndSwap());
-        }
-    }
-
-    IEnumerator PlayEffectAndSwap()
-    {
-        isPlaying = true;
-
         hasSwapped = !hasSwapped;
-
-        SendHaptic();
-
-        if (spawnEffectPrefab != null)
-        {
-            Instantiate(
-                spawnEffectPrefab,
-                transform.position,
-                transform.rotation);
-        }
-
-        yield return new WaitForSeconds(spawnDelay);
 
         if (originalControllerModel != null)
             originalControllerModel.SetActive(!hasSwapped);
 
         if (newModel != null)
             newModel.SetActive(hasSwapped);
-
-        isPlaying = false;
     }
 
-    void SendHaptic()
+    void FireWeapon()
     {
-        if (device.isValid)
+        if (newModel != null &&
+            newModel.activeSelf &&
+            shooter != null)
         {
-            device.SendHapticImpulse(
-                0,
-                hapticAmplitude,
-                hapticDuration);
+            shooter.Fire();
         }
     }
 }

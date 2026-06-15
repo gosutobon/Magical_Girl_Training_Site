@@ -2,19 +2,12 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    [Header("子彈Prefab")]
     public Rigidbody bulletPrefab;
-
-    [Header("槍口位置")]
     public Transform firePoint;
-
-    [Header("瞄準系統")]
     public RaycastAim aimSystem;
 
-    [Header("子彈速度")]
     public float bulletSpeed = 50f;
 
-    [Header("槍口特效")]
     public GameObject muzzleFlashPrefab;
 
     public void Fire()
@@ -22,16 +15,13 @@ public class Shoot : MonoBehaviour
         if (bulletPrefab == null)
         {
             Debug.LogError("bulletPrefab 是空的");
+            return;
         }
 
         if (firePoint == null)
         {
             Debug.LogError("firePoint 是空的");
-        }
-
-        if (aimSystem == null)
-        {
-            Debug.LogError("aimSystem 是空的");
+            return;
         }
 
         Vector3 targetPoint =
@@ -41,9 +31,6 @@ public class Shoot : MonoBehaviour
 
         Vector3 direction =
             (targetPoint - firePoint.position).normalized;
-
-        if (direction == Vector3.zero)
-            direction = firePoint.forward;
 
         Rigidbody bullet = Instantiate(
             bulletPrefab,
@@ -57,11 +44,12 @@ public class Shoot : MonoBehaviour
 
         if (muzzleFlashPrefab != null)
         {
-            GameObject flash = Instantiate(
-                muzzleFlashPrefab,
-                firePoint.position,
-                firePoint.rotation,
-                firePoint);
+            GameObject flash =
+                Instantiate(
+                    muzzleFlashPrefab,
+                    firePoint.position,
+                    firePoint.rotation,
+                    firePoint);
 
             Destroy(flash, 2f);
         }
