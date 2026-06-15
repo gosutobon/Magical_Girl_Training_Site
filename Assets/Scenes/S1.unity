@@ -527,79 +527,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 97538490}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &108619355
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 254781094}
-    m_Modifications:
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.311942
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.311942
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.311942
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -12.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.382
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.462
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5249844372111512331, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_ImplicitCom
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115011929730489638, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-      propertyPath: m_Name
-      value: bullet
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
 --- !u!1 &254781093
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +558,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1385131627}
   - {fileID: 338300892}
   - {fileID: 421710968}
   m_Father: {fileID: 1148256596}
@@ -648,9 +574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a2276d5a3b930344bb4d252b6377388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shoot
-  bulletPrefab: {fileID: 1385131629}
+  bulletPrefab: {fileID: 5249844372111512331, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
   firePoint: {fileID: 421710968}
-  aimSystem: {fileID: 254781096}
   bulletSpeed: 10
   muzzleFlashPrefab: {fileID: 0}
 --- !u!114 &254781096
@@ -669,7 +594,6 @@ MonoBehaviour:
   useMouseAim: 1
   maxDistance: 200
   targetLayer:
-    serializedVersion: 2
     m_Bits: 4294967295
 --- !u!1 &338300891 stripped
 GameObject:
@@ -2646,16 +2570,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337504061}
   m_CullTransparentMesh: 1
---- !u!4 &1385131627 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-  m_PrefabInstance: {fileID: 108619355}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &1385131629 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 5249844372111512331, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
-  m_PrefabInstance: {fileID: 108619355}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1394459649
 GameObject:
   m_ObjectHideFlags: 0

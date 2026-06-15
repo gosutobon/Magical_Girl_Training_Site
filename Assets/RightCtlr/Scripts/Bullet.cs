@@ -4,6 +4,7 @@ public class Bullet : MonoBehaviour
 {
     public GameObject flyEffectPrefab;
     public GameObject hitEffectPrefab;
+    
 
     private GameObject flyEffect;
 
