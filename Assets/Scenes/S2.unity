@@ -1402,7 +1402,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 738369003}
   firePoint: {fileID: 2146906275}
   aimSystem: {fileID: 419009479}
-  bulletSpeed: 50
+  bulletSpeed: 10
   muzzleFlashPrefab: {fileID: 0}
 --- !u!1 &471014744
 GameObject:
@@ -1415,6 +1415,7 @@ GameObject:
   - component: {fileID: 471014747}
   - component: {fileID: 471014746}
   - component: {fileID: 471014745}
+  - component: {fileID: 471014748}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1493,6 +1494,19 @@ Transform:
   - {fileID: 123366954}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &471014748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471014744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a149dec5d7d9d41b35bf5848d23b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawn
+  spawnPoint: {fileID: 1893523434}
 --- !u!1 &471706610
 GameObject:
   m_ObjectHideFlags: 0
@@ -2419,7 +2433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 617d0c672384a964b91c3fac64c0bc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestControllerSwap
-  originalControllerModel: {fileID: 1525114629}
+  originalControllerModel: {fileID: 918908121}
   newModel: {fileID: 326042108}
   shooter: {fileID: 419009481}
   controllerNode: 5
@@ -3348,11 +3362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f4d040bd992dc49a7c48905c8b0616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
---- !u!1 &1525114629 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5895826684305351068, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
-  m_PrefabInstance: {fileID: 1815429564}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1591071001
 GameObject:
   m_ObjectHideFlags: 0
@@ -3501,7 +3510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.34
+      value: -12.48
       objectReference: {fileID: 0}
     - target: {fileID: 1025448445712055848, guid: fc2ef3a87bbf24244aaae1a253aa74a7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4084,6 +4093,37 @@ Transform:
   - {fileID: 1100459137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1893523433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1893523434}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1893523434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893523433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1906291454
 GameObject:
   m_ObjectHideFlags: 0
@@ -4527,7 +4567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 912da4fe511979c4b86c4a97d35eb47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeftHandMenu
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 204604079}
 --- !u!1 &2077771870
 GameObject:
   m_ObjectHideFlags: 0
@@ -4892,3 +4932,4 @@ SceneRoots:
   - {fileID: 809445771}
   - {fileID: 1866755685}
   - {fileID: 471014747}
+  - {fileID: 1893523434}
