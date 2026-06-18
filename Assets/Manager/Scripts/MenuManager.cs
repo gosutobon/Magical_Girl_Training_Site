@@ -3,19 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    public GameObject menuRoot;
-
+    public GameObject pauseMenu;
     public TargetManager targetManager;
 
-    void Start()
+    private void Start()
     {
-        menuRoot.SetActive(false);
+        if (pauseMenu != null)
+            pauseMenu.SetActive(false);
     }
 
     public void ToggleMenu()
     {
-        menuRoot.SetActive(
-            !menuRoot.activeSelf);
+        if (pauseMenu == null) return;
+
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
     }
 
     public void BackToMainMenu()
@@ -25,10 +26,11 @@ public class MenuManager : MonoBehaviour
 
     public void RespawnTargets()
     {
-        targetManager.RespawnAllTargets();
+        if (targetManager != null)
+            targetManager.RespawnAllTargets();
     }
 
-    public void ExitGame()
+    public void QuitGame()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
