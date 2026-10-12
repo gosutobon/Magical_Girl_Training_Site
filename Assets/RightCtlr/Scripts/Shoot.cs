@@ -11,11 +11,20 @@ public class Shoot : MonoBehaviour
     [Header("子彈速度")]
     public float bulletSpeed = 50f;
 
+    [Header("射擊冷卻時間（秒）")]
+    [Min(0f)]
+    public float fireCooldown = 0.5f;
+
     [Header("槍口特效")]
     public GameObject muzzleFlashPrefab;
 
+    private double nextFireTime;
+
     public void Fire()
     {
+        if (Time.timeAsDouble < nextFireTime)
+            return;
+
         if (bulletPrefab == null)
         {
             Debug.LogError("bulletPrefab 是空的");
@@ -35,6 +44,8 @@ public class Shoot : MonoBehaviour
             bulletPrefab,
             firePoint.position,
             firePoint.rotation);
+
+        nextFireTime = Time.timeAsDouble + Mathf.Max(0f, fireCooldown);
 
         bullet.linearVelocity =
             direction * bulletSpeed;
